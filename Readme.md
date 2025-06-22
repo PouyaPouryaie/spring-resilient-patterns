@@ -31,6 +31,10 @@ Prevent one part of the system from exhausting all resources and bringing down o
 - Without bulkheading, `product-service` becomes slow due to blocked threads.
 - With bulkheading applied, the slow response from `rating-service` won’t affect the whole `product-service`.
 
+**Test:**
+- Download k6 image: `docker pull grafana/k6:1.0.0`
+- Run test: `docker run --rm --network=host -v $(pwd):/scripts -e SCENARIO_NAME=perf_test -i grafana/k6:1.0.0 run /scripts/bulkhead-test.js`
+
 ---
 
 ## 🚧 Upcoming Patterns
@@ -49,7 +53,9 @@ The following patterns will be added soon:
 - Java
 - Spring Boot
 - Resilience4j
-- Maven/Gradle
+- Maven
+- Docker
+- JS and K6
 
 ---
 
@@ -75,3 +81,6 @@ This project is licensed under the MIT License.
 ## 🙌 Contributions
 
 Feel free to open issues or submit pull requests if you'd like to contribute to this project or suggest improvements!
+
+---
+check this link: https://www.vinsguru.com/bulkhead-pattern/
