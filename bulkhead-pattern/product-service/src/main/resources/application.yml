@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: product-service
+server:
+  tomcat:
+    threads:
+      max: 15
+rating:
+  service:
+    endpoint: http://localhost:7070/ratings/
+resilience4j:
+  bulkhead:
+    instances:
+      ratingService:
+        max-concurrent-calls: 10
+        max-wait-duration:
+          seconds: 0.01

@@ -9,10 +9,11 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>ir.bigz.spring</groupId>
-	<artifactId>resilient-patterns</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>resilient-patterns</name>
-	<description>Demo project for Spring Boot</description>
+	<artifactId>bulkhead-pattern</artifactId>
+	<version>0.0.1</version>
+    <packaging>pom</packaging>
+    <name>bulkhead-pattern</name>
+	<description>Resilient Microservice Pattern - Bulkhead</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -20,7 +21,12 @@
 	<developers>
 		<developer/>
 	</developers>
-	<scm>
+    <modules>
+        <module>product-service</module>
+		<module>rating-service</module>
+		<module>common-dto</module>
+	</modules>
+    <scm>
 		<connection/>
 		<developerConnection/>
 		<tag/>
