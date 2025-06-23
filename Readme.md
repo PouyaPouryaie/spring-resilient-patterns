@@ -31,6 +31,19 @@ Prevent one part of the system from exhausting all resources and bringing down o
 - Without bulkheading, `product-service` becomes slow due to blocked threads.
 - With bulkheading applied, the slow response from `rating-service` won’t affect the whole `product-service`.
 
+**Note**:
+- In Resilience4j, the @Bulkhead annotation's `type` attribute determines which kind of isolation strategy is applied to protect your resource:
+  - There are two types: `Bulkhead.Type.SEMAPHORE` and `Bulkhead.Type.THREADPOOL`
+  - When to Use Each
+    - Use SEMAPHORE (Default type):
+      - For fast, local logic 
+      - In low-latency environments 
+      - When thread overhead is a concern (since it uses the same calling thread)
+    - Use THREADPOOL:
+      - For remote service calls (REST APIs, DBs)
+      - When you want to offload execution to a different thread 
+      - For timeouts and fallbacks in parallel execution
+
 **Test:**
 - Download k6 image: `docker pull grafana/k6:1.0.0`
 - Run test: `docker run --rm --network=host -v $(pwd):/scripts -e SCENARIO_NAME=perf_test -i grafana/k6:1.0.0 run /scripts/bulkhead-test.js`

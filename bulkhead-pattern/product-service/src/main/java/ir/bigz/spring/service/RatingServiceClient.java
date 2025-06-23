@@ -2,24 +2,21 @@ package ir.bigz.spring.service;
 
 import io.github.resilience4j.bulkhead.annotation.Bulkhead;
 import ir.bigz.spring.dto.ProductRatingDto;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.RestClient;
 
 import java.util.Collections;
 
 @Service
+@RequiredArgsConstructor
 public class RatingServiceClient {
 
-    private final RestTemplate restTemplate = new RestTemplate();
+    private final RestClient restClient;
 
-    @Value("${rating.service.endpoint}")
-    private String ratingService;
-
-    @Bulkhead(name = "ratingService", fallbackMethod = "getDefault")
+    @Bulkhead(name = "ratingService", type = Bulkhead.Type.THREADPOOL, fallbackMethod = "getDefault")
     public ProductRatingDto getProductRatingDto(int productId){
-        return this.restTemplate.getForEntity(this.ratingService + productId, ProductRatingDto.class)
-                .getBody();
+        return restClient.get().uri("/{productId}", productId).retrieve().body(ProductRatingDto.class);
     }
 
     public ProductRatingDto getDefault(int productId, Throwable throwable){
