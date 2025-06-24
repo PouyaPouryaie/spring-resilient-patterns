@@ -17,26 +17,27 @@ import java.util.stream.Collectors;
 public class ProductService {
 
     private final RatingServiceClient ratingServiceClient;
-    private Map<Integer, Product> map;
+    private Map<Long, Product> map;
 
     @PostConstruct
     private void init(){
         this.map = Map.of(
-                1, Product.of(1, "Blood On The Dance Floor", 12.45),
-                2, Product.of(2, "The Eminem Show", 12.12)
+                1L, Product.of(1L, "Magic Mouse", 30.99),
+                2L, Product.of(2L, "Ghost Keyboard", 45.49)
         );
     }
 
-    public ProductDto getProductDto(int productId){
+    public ProductDto getProductDto(long productId){
         ProductRatingDto ratingDto = this.ratingServiceClient.getProductRatingDto(1);
         Product product = this.map.get(productId);
-        return ProductDto.of(productId, product.getDescription(), product.getPrice(), ratingDto);
+        return ProductDto.of(productId, product.getPrice(), product.getDescription(), ratingDto);
     }
 
     public List<ProductDto> getAllProducts(){
         return this.map.values()
                 .stream()
-                .map(product -> ProductDto.of(product.getProductId(), product.getDescription(), product.getPrice(), ProductRatingDto.of(0, Collections.emptyList())))
+                .map(product -> ProductDto.of(product.getProductId(), product.getPrice(),
+                        product.getDescription(), ProductRatingDto.of(0, Collections.emptyList())))
                 .collect(Collectors.toList());
     }
 }

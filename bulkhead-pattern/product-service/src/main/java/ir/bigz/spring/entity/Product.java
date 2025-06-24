@@ -1,13 +1,13 @@
 package ir.bigz.spring.entity;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 @AllArgsConstructor(staticName = "of")
 public class Product {
 
-    private int productId;
+    private long productId;
     private String description;
     private double price;
 

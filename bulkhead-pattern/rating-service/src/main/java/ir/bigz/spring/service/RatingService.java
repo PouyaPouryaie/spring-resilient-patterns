@@ -11,7 +11,7 @@ import java.util.Map;
 @Service
 public class RatingService {
 
-    private Map<Integer, ProductRatingDto> map;
+    private Map<Long, ProductRatingDto> map;
 
     @PostConstruct
     private void init(){
@@ -19,28 +19,27 @@ public class RatingService {
         // product 1
         ProductRatingDto ratingDto1 = ProductRatingDto.of(4.5,
                 List.of(
-                        ReviewDto.of("vins", "guru", 1, 5, "excellent"),
-                        ReviewDto.of("marshall", "mathers", 1, 4, "decent")
+                        ReviewDto.of("alex123", 1, 5, "awesome"),
+                        ReviewDto.of("pouya321", 1, 4, "best")
                 )
         );
 
         // product 2
-        ProductRatingDto ratingDto2 = ProductRatingDto.of(4,
+        ProductRatingDto ratingDto2 = ProductRatingDto.of(3,
                 List.of(
-                        ReviewDto.of("slim", "shady", 2, 5, "best"),
-                        ReviewDto.of("fifty", "cent", 2, 3, "")
+                        ReviewDto.of("tim456", 2, 4, "decent"),
+                        ReviewDto.of("susan654", 2, 2, "not bad")
                 )
         );
 
-        // map as db
         this.map = Map.of(
-                1, ratingDto1,
-                2, ratingDto2
+                1L, ratingDto1,
+                2L, ratingDto2
         );
 
     }
 
-    public ProductRatingDto getRatingForProduct(int productId) {
+    public ProductRatingDto getRatingForProduct(long productId) {
         return this.map.getOrDefault(productId, new ProductRatingDto());
     }
 }

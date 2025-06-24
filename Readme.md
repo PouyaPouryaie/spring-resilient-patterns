@@ -31,6 +31,15 @@ Prevent one part of the system from exhausting all resources and bringing down o
 - Without bulkheading, `product-service` becomes slow due to blocked threads.
 - With bulkheading applied, the slow response from `rating-service` won’t affect the whole `product-service`.
 
+Result:
+Before using bulkhead:
+
+![Screenshot of K6-test Result](images/before-bulkhead.png)
+
+After using bulkhead:
+
+![Screenshot of K6-test Result](images/after-bulkhead.png)
+
 **Note**:
 - In Resilience4j, the @Bulkhead annotation's `type` attribute determines which kind of isolation strategy is applied to protect your resource:
   - There are two types: `Bulkhead.Type.SEMAPHORE` and `Bulkhead.Type.THREADPOOL`
@@ -46,7 +55,7 @@ Prevent one part of the system from exhausting all resources and bringing down o
 
 **Test:**
 - Download k6 image: `docker pull grafana/k6:1.0.0`
-- Run test: `docker run --rm --network=host -v $(pwd):/scripts -e SCENARIO_NAME=perf_test -i grafana/k6:1.0.0 run /scripts/bulkhead-test.js`
+- Run test: `docker run --rm --network=host -v $(pwd):/scripts -e SCENARIO_NAME=perf_test -i grafana/k6:1.0.0 run /scripts/bulkhead-test-single-use-case.js`
 
 ---
 

@@ -7,11 +7,10 @@ server:
       max: 15
 rating:
   service:
-    endpoint: http://localhost:7070/ratings
+    endpoint: http://localhost:9090/ratings
 resilience4j:
   bulkhead:
     instances:
       ratingService:
-        max-concurrent-calls: 10 # controls how many threads can enter the method concurrently.
-        max-wait-duration: # controls how long a request waits before failing (0 means fail immediately if limit exceeded).
-          seconds: 0.01
+        maxConcurrentCalls: 10 # controls how many threads can enter the method concurrently.
+        maxWaitDuration: 10ms # controls how long a request waits before failing (0 means fail immediately if the limit exceeded).

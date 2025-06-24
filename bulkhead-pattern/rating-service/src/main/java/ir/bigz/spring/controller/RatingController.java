@@ -15,9 +15,9 @@ public class RatingController {
 
     private final RatingService ratingService;
 
-    @GetMapping("{prodId}")
-    public ProductRatingDto getRating(@PathVariable int prodId) throws InterruptedException {
+    @GetMapping("/{productId}")
+    public ProductRatingDto getRating(@PathVariable long productId) throws InterruptedException {
         Thread.sleep(3000);
-        return this.ratingService.getRatingForProduct(prodId);
+        return this.ratingService.getRatingForProduct(productId);
     }
 }

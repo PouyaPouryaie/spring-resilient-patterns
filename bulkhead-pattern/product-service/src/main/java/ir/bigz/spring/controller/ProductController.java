@@ -16,13 +16,12 @@ public class ProductController {
 
     private final ProductService productService;
 
-
     @GetMapping("/{productId}")
     public ProductDto getProduct(@PathVariable int productId){
         return this.productService.getProductDto(productId);
     }
 
-    @GetMapping("/")
+    @GetMapping
     public List<ProductDto> getAllProducts() throws InterruptedException {
         Thread.sleep(50);
         return this.productService.getAllProducts();

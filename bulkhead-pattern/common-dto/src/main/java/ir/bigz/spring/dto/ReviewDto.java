@@ -1,17 +1,16 @@
 package ir.bigz.spring.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Data
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor(staticName = "of")
 public class ReviewDto {
 
-    private String userFirstname;
-    private String userLastname;
-    private int productId;
+    private String username;
+    private long productId;
     private int rating;
     private String comment;
 

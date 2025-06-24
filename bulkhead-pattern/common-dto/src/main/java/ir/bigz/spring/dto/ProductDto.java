@@ -1,16 +1,16 @@
 package ir.bigz.spring.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Data
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor(staticName = "of")
 public class ProductDto {
 
-    private int productId;
-    private String description;
+    private long productId;
     private double price;
+    private String description;
     private ProductRatingDto productRating;
 }
