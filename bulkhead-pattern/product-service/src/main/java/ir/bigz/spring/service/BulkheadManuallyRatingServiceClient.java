@@ -1,6 +1,5 @@
 package ir.bigz.spring.service;
 
-import io.github.resilience4j.bulkhead.Bulkhead;
 import io.github.resilience4j.bulkhead.BulkheadFullException;
 import io.github.resilience4j.bulkhead.ThreadPoolBulkhead;
 import ir.bigz.spring.dto.ProductRatingDto;
