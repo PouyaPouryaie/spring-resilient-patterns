@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Profile;
 
 @Configuration(proxyBeanMethods = false)
 @Profile("manually")
-public class BulkheadManuallyConfiguration {
+public class BulkheadManuallyConfig {
 
     @Bean
     public ThreadPoolBulkheadConfig getBulkheadConfig() {
