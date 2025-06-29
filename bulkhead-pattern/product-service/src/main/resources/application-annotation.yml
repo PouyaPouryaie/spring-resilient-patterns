@@ -1,0 +1,16 @@
+## semaphore configuration
+resilience4j:
+  bulkhead:
+    instances:
+      ratingServiceAnnotation:
+        max-concurrent-calls: 10 # Determines the maximum number of concurrent calls we can make to the remote service
+        max-wait-duration: 1s # How long a request can wait to get a thread before failing - BulkheadFullException (0 means fail immediately if the limit exceeded).
+
+## ThreadPool configuration
+#resilience4j.thread-pool-bulkhead:
+#  instances:
+#    ratingServiceAnnotation:
+#      max-thread-pool-size: 1
+#      core-thread-pool-size: 1
+#      queue-capacity: 1
+#      writable-stack-trace-enabled: true
