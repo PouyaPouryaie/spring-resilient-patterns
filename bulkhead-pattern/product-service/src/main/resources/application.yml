@@ -8,9 +8,25 @@ server:
 rating:
   service:
     endpoint: http://localhost:9090/ratings
+management:
+  endpoints:
+    web:
+      exposure:
+        include: bulkheadevents, bulkheads
+
+## semaphore configuration
 resilience4j:
   bulkhead:
     instances:
       ratingService:
-        maxConcurrentCalls: 10 # controls how many threads can enter the method concurrently.
-        maxWaitDuration: 10ms # controls how long a request waits before failing (0 means fail immediately if the limit exceeded).
+        max-concurrent-calls: 10 # Determines the maximum number of concurrent calls we can make to the remote service
+        max-wait-duration: 1s # How long a request can wait to get a thread before failing - BulkheadFullException (0 means fail immediately if the limit exceeded).
+
+## ThreadPool configuration
+#resilience4j.thread-pool-bulkhead:
+#  instances:
+#    ratingService:
+#      max-thread-pool-size: 1
+#      core-thread-pool-size: 1
+#      queue-capacity: 1
+#      writable-stack-trace-enabled: true

@@ -17,7 +17,7 @@ public class RatingServiceClient {
 
     private final RestClient restClient;
 
-//    @Bulkhead(name = "ratingService", type = Bulkhead.Type.SEMAPHORE, fallbackMethod = "getRatingFallback")
+    @Bulkhead(name = "ratingService", type = Bulkhead.Type.SEMAPHORE, fallbackMethod = "getRatingFallback")
     public ProductRatingDto getProductRatingDto(long productId){
         return restClient.get().uri("/{productId}", productId).retrieve().body(ProductRatingDto.class);
     }
