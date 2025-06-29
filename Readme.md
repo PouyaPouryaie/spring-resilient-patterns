@@ -31,6 +31,9 @@ Prevent one part of the system from exhausting all resources and bringing down o
 - Without bulkheading, `product-service` becomes slow due to blocked threads.
 - With bulkheading applied, the slow response from `rating-service` won’t affect the whole `product-service`.
 
+**Features:**
+- **Bulkhead Implementation**: Shows how to use both Java Beans (configuration) and annotations for Bulkhead.
+- **Context Propagation**: Explains how to pass thread-local data into the Bulkhead's thread pool
 Result:
 Before using bulkhead:
 
@@ -105,4 +108,3 @@ This project is licensed under the MIT License.
 Feel free to open issues or submit pull requests if you'd like to contribute to this project or suggest improvements!
 
 ---
-check this link: https://www.vinsguru.com/bulkhead-pattern/
