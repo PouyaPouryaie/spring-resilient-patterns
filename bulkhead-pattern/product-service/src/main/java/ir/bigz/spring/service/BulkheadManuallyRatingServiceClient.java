@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
 import java.util.Collections;
+import java.util.Optional;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Supplier;
@@ -24,9 +25,20 @@ public class BulkheadManuallyRatingServiceClient implements RatingServiceClient 
     private final RestClient restClient;
 
     public ProductRatingDto getProductRatingDto(long productId) {
+
         Supplier<CompletionStage<ProductRatingDto>> completionStageSupplier = ThreadPoolBulkhead
-                .decorateSupplier(threadPoolBulkhead, () -> restClient.get().uri("/{productId}", productId)
-                        .retrieve().body(ProductRatingDto.class));
+                .decorateSupplier(threadPoolBulkhead,
+                        () -> {
+                            @SuppressWarnings("unchecked")
+                            String trackId = ((Optional<String>) threadPoolBulkhead.getBulkheadConfig().getContextPropagator().getFirst().retrieve().get())
+                                    .orElse("");
+                            return restClient.get().uri("/{productId}", productId)
+                                    .header("Content-Type", "application/json")
+                                    .header("Accept", "application/json")
+                                    .header("X-UUID", trackId)
+                                    .retrieve()
+                                    .body(ProductRatingDto.class);
+                        });
 
         try {
             return completionStageSupplier.get().toCompletableFuture().get();
@@ -39,7 +51,8 @@ public class BulkheadManuallyRatingServiceClient implements RatingServiceClient 
     }
 
     private ProductRatingDto getRatingFallback(long productId, Exception e) {
-        log.info("Fallback: Get default rating for product with id {}, message {}", productId, e.getMessage());
+        String trackId = threadPoolBulkhead.getBulkheadConfig().getContextPropagator().getFirst().retrieve().get().toString();
+        log.info("Fallback: Get default rating for trackId: {}, product with id {}, message {}", trackId, productId, e.getMessage());
         return ProductRatingDto.of(0, Collections.emptyList());
     }
 }

@@ -2,7 +2,7 @@ spring:
   application:
     name: product-service
   profiles:
-    active: annotation # annotation, manually
+    active: manually # annotation, manually
 server:
   tomcat:
     threads:

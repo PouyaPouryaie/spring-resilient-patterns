@@ -1,4 +1,4 @@
-package ir.bigz.spring;
+package ir.bigz.spring.config;
 
 import io.github.resilience4j.bulkhead.ThreadPoolBulkhead;
 import io.github.resilience4j.bulkhead.ThreadPoolBulkheadConfig;
@@ -13,7 +13,12 @@ public class BulkheadManuallyConfig {
 
     @Bean
     public ThreadPoolBulkheadConfig getBulkheadConfig() {
-        return ThreadPoolBulkheadConfig.custom().maxThreadPoolSize(10).coreThreadPoolSize(1).queueCapacity(1).build();
+        return ThreadPoolBulkheadConfig.custom()
+                .maxThreadPoolSize(10)
+                .coreThreadPoolSize(1)
+                .queueCapacity(1)
+                .contextPropagator(new RequestContextPropagator())
+                .build();
     }
 
     @Bean

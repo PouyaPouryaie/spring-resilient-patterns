@@ -1,5 +1,6 @@
 import http from 'k6/http';
-import { sleep } from 'k6';
+import { check, sleep } from 'k6';
+import { uuidv4 } from 'https://jslib.k6.io/k6-utils/1.4.0/index.js';
 
 const scenarioName = __ENV.SCENARIO_NAME || 'perf_test';
 
@@ -33,12 +34,50 @@ function getScenarioConfig(name) {
 }
 
 export function perfTest() {
-    http.get('http://localhost:8080/products/1');
+
+    const randomUUID = uuidv4();
+    const params = {
+        headers: {
+            'Content-Type': 'application/json',
+            'X-UUID': randomUUID,
+        },
+    };
+
+    http.get('http://localhost:8080/products/1', params);
+    check(res, {
+        'is status 200': (r) => r.status === 200,
+        'Response header exists: X-UUID': (r) => {
+            return 'X-UUID' in r.headers;
+        },
+        'Response header matches sent UUID': (r) => {
+            // Check if the value of the 'x-request-id' header matches the UUID we sent
+            return r.headers['X-UUID'] === randomUUID;
+        },
+    });
     sleep(1);
 }
 
 export function productsTest() {
-    http.get('http://localhost:8080/products');
+
+    const randomUUID = uuidv4();
+    const params = {
+        headers: {
+            'Content-Type': 'application/json',
+            'X-UUID': randomUUID,
+        },
+    };
+
+    http.get('http://localhost:8080/products', params);
+    check(res, {
+        'is status 200': (r) => r.status === 200,
+        'Response header exists: X-UUID': (r) => {
+            return 'X-UUID' in r.headers;
+        },
+        'Response header matches sent UUID': (r) => {
+            // Check if the value of the 'x-request-id' header matches the UUID we sent
+            return r.headers['X-UUID'] === randomUUID;
+        },
+    });
     sleep(1);
 }
 
