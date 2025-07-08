@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: rating-service
+  profiles:
+    active: manually
+server:
+  port: 9090

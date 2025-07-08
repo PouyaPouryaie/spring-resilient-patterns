@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: product-service
+  profiles:
+    active: manually # annotation, manually
+server:
+  tomcat:
+    threads:
+      max: 15
+rating:
+  service:
+    endpoint: http://localhost:9090/ratings
+management:
+  endpoints:
+    web:
+      exposure:
+        include: bulkheadevents, bulkheads
